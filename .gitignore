@@ -5,3 +5,11 @@ node_modules
 package-lock.json
 *.log
 *.gz
+
+# bazel
+MODULE.bazel
+MODULE.bazel.lock
+bazel-bin
+bazel-out
+bazel-workout-app
+bazel-testlogs

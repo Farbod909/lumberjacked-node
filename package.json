@@ -1,0 +1,12 @@
+{
+    "name": "workout-app",
+    "version": "0.0.0",
+    "dependencies": {
+        "express": "~4.16.1"
+    },
+    "devDependencies": {
+        "@bazel/jasmine": "5.3.0",
+        "jasmine": "4.0.2",
+        "jasmine-core": "4.0.1"
+    }
+}
