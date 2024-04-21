@@ -1,25 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class MovementLogsService {
+  constructor(private readonly databaseService: DatabaseService) {}
+
   create(createMovementLogDto: Prisma.MovementLogCreateInput) {
-    return 'This action adds a new movementLog';
+    return this.databaseService.movementLog.create({
+      data: createMovementLogDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all movementLogs`;
+  findAll(movementId: number) {
+    return this.databaseService.movementLog.findMany({
+      where: {
+        movement: {
+          id: movementId,
+        },
+      },
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} movementLog`;
+    return this.databaseService.movementLog.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, updateMovementLogDto: Prisma.MovementLogUpdateInput) {
-    return `This action updates a #${id} movementLog`;
+    return this.databaseService.movementLog.update({
+      where: { id },
+      data: updateMovementLogDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} movementLog`;
+    return this.databaseService.movementLog.delete({
+      where: { id },
+    });
   }
 }

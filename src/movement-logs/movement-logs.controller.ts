@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MovementLogsService } from './movement-logs.service';
 import { Prisma } from '@prisma/client';
@@ -19,26 +20,26 @@ export class MovementLogsController {
     return this.movementLogsService.create(createMovementLogDto);
   }
 
-  @Get()
-  findAll() {
-    return this.movementLogsService.findAll();
+  @Get('movement/:id')
+  findAll(@Param('id', ParseIntPipe) id: number) {
+    return this.movementLogsService.findAll(id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.movementLogsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.movementLogsService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateMovementLogDto: Prisma.MovementLogUpdateInput,
   ) {
-    return this.movementLogsService.update(+id, updateMovementLogDto);
+    return this.movementLogsService.update(id, updateMovementLogDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.movementLogsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.movementLogsService.remove(id);
   }
 }
