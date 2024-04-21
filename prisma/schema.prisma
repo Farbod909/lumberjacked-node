@@ -9,50 +9,42 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-	id        			BigInt		@id @default(sequence())
-	email						String		@unique
-	firstName				String
-	lastName				String
+	id        		Int			@id @default(autoincrement())
+	email			String		@unique
+	firstName		String
+	lastName		String
 	hashedPassword	String
-	createdAt				DateTime	@default(now())
-	updatedAt 			DateTime	@updatedAt
-	movements				Movement[]
-	crdb_region			crdb_internal_region?
+	createdAt		DateTime	@default(now())
+	updatedAt 		DateTime	@updatedAt
+	movements		Movement[]
 }
 
 model Movement {
-	id						BigInt	@id @default(sequence())
-	authorId			BigInt
-	author				User		@relation(fields: [authorId], references: [id])
-	name					String
-	split					String?
+	id				Int			@id @default(autoincrement())
+	authorId		Int
+	author			User		@relation(fields: [authorId], references: [id])
+	name			String
+	split			String?
 	description		String?
 	warmupSets		String?
 	workingSets		String?
-	rpe						String?
-	restTime			Int? // in seconds
+	rpe				String?
+	restTime		Int? 		// In seconds.
 	movementLogs	MovementLog[]
-	crdb_region		crdb_internal_region?
 }
 
 model MovementLog {
-	id						BigInt		@id @default(sequence())
-	movementId		BigInt
-	movement			Movement	@relation(fields: [movementId], references: [id])
-	sets					Int
-	reps					Int
-	load					Decimal
+	id				Int			@id @default(autoincrement())
+	movementId		Int
+	movement		Movement	@relation(fields: [movementId], references: [id])
+	sets			Int
+	reps			Int
+	load			Decimal
 	timestamp		DateTime	@default(now())
-	crdb_region		crdb_internal_region?
-}
-
-enum crdb_internal_region {
-  gcp_us_east1			@map("gcp-us-east1")
-  gcp_europe_west1	@map("gcp-europe-west1")
-  gcp_us_west2			@map("gcp-us-west2")
 }
