@@ -1,14 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { MovementsService } from './movements.service';
-import { CreateMovementDto } from './dto/create-movement.dto';
-import { UpdateMovementDto } from './dto/update-movement.dto';
+// import { CreateMovementDto } from './dto/create-movement.dto';
+// import { UpdateMovementDto } from './dto/update-movement.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('movements')
 export class MovementsController {
   constructor(private readonly movementsService: MovementsService) {}
 
   @Post()
-  create(@Body() createMovementDto: CreateMovementDto) {
+  create(@Body() createMovementDto: Prisma.MovementCreateInput) {
     return this.movementsService.create(createMovementDto);
   }
 
@@ -18,17 +28,20 @@ export class MovementsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.movementsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.movementsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMovementDto: UpdateMovementDto) {
-    return this.movementsService.update(+id, updateMovementDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateMovementDto: Prisma.MovementUpdateInput,
+  ) {
+    return this.movementsService.update(id, updateMovementDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.movementsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.movementsService.remove(id);
   }
 }
