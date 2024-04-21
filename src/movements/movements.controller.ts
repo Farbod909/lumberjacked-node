@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { MovementsService } from './movements.service';
 import { Prisma } from '@prisma/client';
@@ -26,20 +25,20 @@ export class MovementsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id') id: number) {
     return this.movementsService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Body() updateMovementDto: Prisma.MovementUpdateInput,
   ) {
     return this.movementsService.update(id, updateMovementDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: number) {
     return this.movementsService.remove(id);
   }
 }
