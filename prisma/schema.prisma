@@ -47,6 +47,7 @@ model MovementLog {
 	sets					Int
 	reps					Int
 	load					Decimal
+	timestamp		DateTime	@default(now())
 	crdb_region		crdb_internal_region?
 }
 
