@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
-// import { CreateMovementDto } from './dto/create-movement.dto';
-// import { UpdateMovementDto } from './dto/update-movement.dto';
 
 @Injectable()
 export class MovementsService {

@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMovementLogDto } from './dto/create-movement-log.dto';
-import { UpdateMovementLogDto } from './dto/update-movement-log.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class MovementLogsService {
-  create(createMovementLogDto: CreateMovementLogDto) {
+  create(createMovementLogDto: Prisma.MovementLogCreateInput) {
     return 'This action adds a new movementLog';
   }
 
@@ -16,7 +15,7 @@ export class MovementLogsService {
     return `This action returns a #${id} movementLog`;
   }
 
-  update(id: number, updateMovementLogDto: UpdateMovementLogDto) {
+  update(id: number, updateMovementLogDto: Prisma.MovementLogUpdateInput) {
     return `This action updates a #${id} movementLog`;
   }
 

@@ -9,8 +9,6 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { MovementsService } from './movements.service';
-// import { CreateMovementDto } from './dto/create-movement.dto';
-// import { UpdateMovementDto } from './dto/update-movement.dto';
 import { Prisma } from '@prisma/client';
 
 @Controller('movements')
