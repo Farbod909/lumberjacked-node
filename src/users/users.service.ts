@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import * as bcrypt from 'bcrypt';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -33,6 +34,22 @@ export class UsersService {
         id,
       },
       data: updateUserDto,
+    });
+  }
+
+  async changePassword(id: number, changePasswordDto: ChangePasswordDto) {
+    if (changePasswordDto.password !== changePasswordDto.passwordConfirmation) {
+      throw new BadRequestException('Passwords do not match.');
+    }
+    const saltRounds = 10;
+    return this.databaseService.user.update({
+      where: { id },
+      data: {
+        hashedPassword: await bcrypt.hash(
+          changePasswordDto.password,
+          saltRounds,
+        ),
+      },
     });
   }
 
