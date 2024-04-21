@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MovementsService } from './movements.service';
 import { MovementsController } from './movements.controller';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  imports: [DatabaseService],
+  imports: [DatabaseModule],
   controllers: [MovementsController],
   providers: [MovementsService],
 })
