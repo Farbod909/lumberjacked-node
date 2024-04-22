@@ -7,7 +7,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
-import { IsIntegerRange } from 'src/common/validation-decorators/IsNumericRange.decorator';
+import { IsIntegerRangeString } from 'src/common/validation-decorators/IsIntegerRangeString.decorator';
 
 export class CreateMovementDto {
   @IsNotEmpty()
@@ -30,7 +30,8 @@ export class CreateMovementDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @IsIntegerRange({
+  @IsIntegerRangeString({
+    canBeSingleInteger: true,
     smallest: 1,
     largest: 10,
   })
@@ -39,7 +40,8 @@ export class CreateMovementDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @IsIntegerRange({
+  @IsIntegerRangeString({
+    canBeSingleInteger: true,
     smallest: 1,
     largest: 10,
   })
@@ -48,7 +50,8 @@ export class CreateMovementDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @IsIntegerRange({
+  @IsIntegerRangeString({
+    canBeSingleInteger: true,
     smallest: 1,
     largest: 10,
   })

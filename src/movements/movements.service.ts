@@ -19,7 +19,7 @@ export class MovementsService {
   findAll() {
     return this.databaseService.movement.findMany({
       where: {
-        id: 2, // TODO: get this from the session once authentication is implemented.
+        authorId: 2, // TODO: get this from the session once authentication is implemented.
       },
     });
   }
