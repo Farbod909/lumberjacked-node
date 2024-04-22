@@ -22,9 +22,15 @@ export class UsersService {
     });
   }
 
-  async findOne(id: number) {
+  async getById(id: number) {
     return this.databaseService.user.findUnique({
       where: { id },
+    });
+  }
+
+  async getByEmail(email: string) {
+    return this.databaseService.user.findUnique({
+      where: { email },
     });
   }
 
