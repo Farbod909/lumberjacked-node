@@ -8,14 +8,15 @@ import {
   Delete,
 } from '@nestjs/common';
 import { MovementLogsService } from './movement-logs.service';
-import { Prisma } from '@prisma/client';
+import { CreateMovementLogDto } from './dto/create-movement-log.dto';
+import { UpdateMovementLogDto } from './dto/update-movement-log.dto';
 
 @Controller('movement-logs')
 export class MovementLogsController {
   constructor(private readonly movementLogsService: MovementLogsService) {}
 
   @Post()
-  create(@Body() createMovementLogDto: Prisma.MovementLogCreateInput) {
+  create(@Body() createMovementLogDto: CreateMovementLogDto) {
     return this.movementLogsService.create(createMovementLogDto);
   }
 
@@ -32,7 +33,7 @@ export class MovementLogsController {
   @Patch(':id')
   update(
     @Param('id') id: number,
-    @Body() updateMovementLogDto: Prisma.MovementLogUpdateInput,
+    @Body() updateMovementLogDto: UpdateMovementLogDto,
   ) {
     return this.movementLogsService.update(id, updateMovementLogDto);
   }

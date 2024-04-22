@@ -1,5 +1,4 @@
 import {
-  IsAlphanumeric,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -13,14 +12,13 @@ import { IsIntegerRange } from 'src/common/validation-decorators/IsNumericRange.
 export class CreateMovementDto {
   @IsNotEmpty()
   @IsString()
-  @IsAlphanumeric()
-  @MaxLength(20)
+  @MaxLength(30)
   name: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @MaxLength(20)
+  @MaxLength(30)
   split?: string;
 
   @IsOptional()
@@ -57,7 +55,6 @@ export class CreateMovementDto {
   rpe?: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsInt()
   @Min(0)
   @Max(3600)

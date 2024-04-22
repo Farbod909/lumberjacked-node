@@ -59,6 +59,6 @@ export class IsIntegerRangeConstraint implements ValidatorConstraintInterface {
     return true;
   }
   defaultMessage(validationArguments?: ValidationArguments): string {
-    return `${validationArguments.property} is not a numeric range between ${validationArguments.constraints[0].smallest} and ${validationArguments.constraints[0].largest}`;
+    return `${validationArguments.property} is not a numeric range with values between ${validationArguments.constraints[0].smallest} and ${validationArguments.constraints[0].largest}`;
   }
 }

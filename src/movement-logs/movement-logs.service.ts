@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+import { UpdateMovementLogDto } from './dto/update-movement-log.dto';
+import { CreateMovementLogDto } from './dto/create-movement-log.dto';
 
 @Injectable()
 export class MovementLogsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createMovementLogDto: Prisma.MovementLogCreateInput) {
+  create(createMovementLogDto: CreateMovementLogDto) {
     return this.databaseService.movementLog.create({
       data: createMovementLogDto,
     });
@@ -14,11 +15,7 @@ export class MovementLogsService {
 
   findAll(movementId: number) {
     return this.databaseService.movementLog.findMany({
-      where: {
-        movement: {
-          id: movementId,
-        },
-      },
+      where: { movementId },
     });
   }
 
@@ -28,7 +25,7 @@ export class MovementLogsService {
     });
   }
 
-  update(id: number, updateMovementLogDto: Prisma.MovementLogUpdateInput) {
+  update(id: number, updateMovementLogDto: UpdateMovementLogDto) {
     return this.databaseService.movementLog.update({
       where: { id },
       data: updateMovementLogDto,
