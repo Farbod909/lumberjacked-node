@@ -1,19 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+import { UpdateMovmenentDto } from './dto/update-movement.dto';
+import { CreateMovementDto } from './dto/create-movement.dto';
 
 @Injectable()
 export class MovementsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createMovementDto: Prisma.MovementCreateInput) {
+  create(createMovementDto: CreateMovementDto) {
     return this.databaseService.movement.create({
-      data: createMovementDto,
+      data: {
+        authorId: 2, // TODO: get this from the session once authentication is implemented.
+        ...createMovementDto,
+      },
     });
   }
 
   findAll() {
-    return this.databaseService.movement.findMany();
+    return this.databaseService.movement.findMany({
+      where: {
+        id: 2, // TODO: get this from the session once authentication is implemented.
+      },
+    });
   }
 
   findOne(id: number) {
@@ -22,7 +30,7 @@ export class MovementsService {
     });
   }
 
-  update(id: number, updateMovementDto: Prisma.MovementUpdateInput) {
+  update(id: number, updateMovementDto: UpdateMovmenentDto) {
     return this.databaseService.movement.update({
       where: { id },
       data: updateMovementDto,

@@ -4,7 +4,7 @@ import {
   IsStrongPassword,
   MinLength,
 } from 'class-validator';
-import { Match } from 'src/common/decorators/match.decorator';
+import { Match } from 'src/common/validation-decorators/Match.decorator';
 
 export class CreateUserDto {
   @IsEmail()

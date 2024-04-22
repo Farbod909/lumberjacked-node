@@ -1,5 +1,5 @@
 /**
- * Copied from https://stackoverflow.com/questions/60451337/password-confirmation-in-typescript-with-class-validator
+ * Taken from https://stackoverflow.com/questions/60451337/password-confirmation-in-typescript-with-class-validator and modified.
  */
 
 import {
@@ -28,5 +28,8 @@ export class MatchConstraint implements ValidatorConstraintInterface {
     const [relatedPropertyName] = args.constraints;
     const relatedValue = (args.object as any)[relatedPropertyName];
     return value === relatedValue;
+  }
+  defaultMessage(validationArguments?: ValidationArguments): string {
+    return `${validationArguments.property} does not match ${validationArguments.constraints}`;
   }
 }
