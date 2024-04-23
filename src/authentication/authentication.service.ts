@@ -39,4 +39,8 @@ export class AuthenticationService {
   async logout(token: string) {
     await this.sessionService.deleteSession(token);
   }
+
+  async logoutAllSessions(userId: number) {
+    await this.sessionService.deleteAllSessionsForUser(userId);
+  }
 }
