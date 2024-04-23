@@ -22,7 +22,8 @@ export class AuthenticationController {
   @UseGuards(AuthenticationGuard)
   @Get('/logout')
   logout(@Request() req) {
-    return this.authenticationService.logout(req.user.token);
+    console.log(req.user.token);
+    return this.authenticationService.logout(req.user.access_token);
   }
 
   @UseGuards(AuthenticationGuard)

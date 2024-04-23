@@ -3,12 +3,12 @@ import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { UsersModule } from 'src/users/users.module';
 import { DatabaseModule } from 'src/database/database.module';
-import { RedisRepository } from './redis.repository';
-import { redisClientFactory } from './redis.factory';
+import { RedisModule } from 'src/redis/redis.module';
+import { SessionService } from './session.service';
 
 @Module({
-  imports: [UsersModule, DatabaseModule],
+  imports: [UsersModule, DatabaseModule, RedisModule],
   controllers: [AuthenticationController],
-  providers: [AuthenticationService, RedisRepository, redisClientFactory],
+  providers: [AuthenticationService, SessionService],
 })
 export class AuthenticationModule {}

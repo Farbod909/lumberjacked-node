@@ -5,11 +5,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { RedisRepository } from './redis.repository';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  constructor(private redisRepository: RedisRepository) {}
+  constructor(private readonly sessionService: SessionService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -17,13 +17,13 @@ export class AuthenticationGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException();
     }
-    const user = await this.redisRepository.get_hash('session', token);
+    const user = await this.sessionService.getUserSessionInfoFromSession(token);
 
-    if (!user || Object.keys(user).length == 0) {
+    if (!user) {
       throw new UnauthorizedException();
     }
 
-    user['token'] = token;
+    user.access_token = token;
     request['user'] = user;
     return true;
   }

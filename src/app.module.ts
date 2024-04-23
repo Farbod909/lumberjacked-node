@@ -7,6 +7,7 @@ import { MovementsModule } from './movements/movements.module';
 import { MovementLogsModule } from './movement-logs/movement-logs.module';
 import { CommonModule } from './common/common.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     MovementLogsModule,
     CommonModule,
     AuthenticationModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [AppService],

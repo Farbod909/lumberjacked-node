@@ -1,15 +1,15 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { SessionService } from './session.service';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { LoginDTO } from './dto/login.dto';
-import { RedisRepository } from './redis.repository';
-import * as crypto from 'crypto';
+import UserSessionInfo from './entities/UserSessionInfo';
 
 @Injectable()
 export class AuthenticationService {
   constructor(
     private readonly usersService: UsersService,
-    private redisRepository: RedisRepository,
+    private readonly sessionService: SessionService,
   ) {}
 
   async login(loginDto: LoginDTO) {
@@ -28,17 +28,15 @@ export class AuthenticationService {
       throw new UnauthorizedException('Incorrect username or password.');
     }
 
-    user.hashedPassword = '';
-
-    const token = crypto.randomBytes(48).toString('hex');
-
-    this.redisRepository.set_hash('session', token, user);
+    const token = await this.sessionService.createSession(
+      UserSessionInfo.fromUser(user),
+    );
     return {
       access_token: token,
     };
   }
 
   async logout(token: string) {
-    await this.redisRepository.delete('session', token);
+    await this.sessionService.deleteSession(token);
   }
 }
