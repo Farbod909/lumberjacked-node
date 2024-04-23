@@ -2,10 +2,15 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { LoginDTO } from './dto/login.dto';
+import { RedisRepository } from './redis.repository';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private redisRepository: RedisRepository,
+  ) {}
 
   async login(loginDto: LoginDTO) {
     const user = await this.usersService.getByEmail(loginDto.email);
@@ -24,7 +29,16 @@ export class AuthenticationService {
     }
 
     user.hashedPassword = '';
-    // TODO: Generate a token, store it in redis, mapped to user object, and return token here (instead of user object)
-    return user;
+
+    const token = crypto.randomBytes(48).toString('hex');
+
+    this.redisRepository.set_hash('session', token, user);
+    return {
+      access_token: token,
+    };
+  }
+
+  async logout(token: string) {
+    await this.redisRepository.delete('session', token);
   }
 }
