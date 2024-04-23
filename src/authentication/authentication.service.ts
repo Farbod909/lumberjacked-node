@@ -32,7 +32,7 @@ export class AuthenticationService {
       UserSessionInfo.fromUser(user),
     );
     return {
-      access_token: token,
+      accessToken: token,
     };
   }
 
