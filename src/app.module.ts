@@ -6,6 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import { MovementsModule } from './movements/movements.module';
 import { MovementLogsModule } from './movement-logs/movement-logs.module';
 import { CommonModule } from './common/common.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CommonModule } from './common/common.module';
     MovementsModule,
     MovementLogsModule,
     CommonModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
