@@ -10,5 +10,6 @@ import { SessionService } from './session.service';
   imports: [UsersModule, DatabaseModule, RedisModule],
   controllers: [AuthenticationController],
   providers: [AuthenticationService, SessionService],
+  exports: [SessionService],
 })
 export class AuthenticationModule {}
