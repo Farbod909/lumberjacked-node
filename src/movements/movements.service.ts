@@ -22,6 +22,7 @@ export class MovementsService {
         authorId,
       },
       select: {
+        id: true,
         name: true,
         split: true,
         movementLogs: {
