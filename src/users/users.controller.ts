@@ -12,7 +12,7 @@ import { UsersService } from './users.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { SkipAuthentication } from 'src/authentication/skip-authentication.decorator';
+import { SkipAuthentication } from 'src/authentication/decorators/skip-authentication.decorator';
 
 @Controller('users')
 export class UsersController {

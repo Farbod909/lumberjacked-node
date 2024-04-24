@@ -7,7 +7,7 @@ import {
 import { Request } from 'express';
 import { SessionService } from './session.service';
 import { Reflector } from '@nestjs/core';
-import { SKIP_AUTHENTICATION_KEY } from './skip-authentication.decorator';
+import { SKIP_AUTHENTICATION_KEY } from './decorators/skip-authentication.decorator';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {

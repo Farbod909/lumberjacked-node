@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { LoginDTO } from './dto/login.dto';
-import { SkipAuthentication } from './skip-authentication.decorator';
+import { SkipAuthentication } from './decorators/skip-authentication.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
+import UserSessionInfo from './entities/UserSessionInfo';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -14,17 +16,17 @@ export class AuthenticationController {
   }
 
   @Get('/logout')
-  logout(@Request() req) {
-    return this.authenticationService.logout(req.user.access_token);
+  logout(@CurrentUser() user) {
+    return this.authenticationService.logout(user.access_token);
   }
 
   @Get('/logout-all')
-  logoutAllSessions(@Request() req) {
-    return this.authenticationService.logoutAllSessions(req.user.id);
+  logoutAllSessions(@CurrentUser() user: UserSessionInfo) {
+    return this.authenticationService.logoutAllSessions(user.id);
   }
 
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@CurrentUser() user: UserSessionInfo) {
+    return user;
   }
 }
