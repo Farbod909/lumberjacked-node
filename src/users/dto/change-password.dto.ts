@@ -1,7 +1,11 @@
-import { PickType } from '@nestjs/mapped-types';
+import { IntersectionType, PickType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 
-export class ChangePasswordDto extends PickType(CreateUserDto, [
-  'password',
-  'passwordConfirmation',
-] as const) {}
+class CurrentPasswordInfo {
+  currentPassword: string;
+}
+
+export class ChangePasswordDto extends IntersectionType(
+  PickType(CreateUserDto, ['password', 'passwordConfirmation'] as const),
+  CurrentPasswordInfo,
+) {}

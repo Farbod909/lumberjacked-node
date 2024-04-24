@@ -47,6 +47,16 @@ export class UsersService {
     if (changePasswordDto.password !== changePasswordDto.passwordConfirmation) {
       throw new BadRequestException('Passwords do not match.');
     }
+
+    const user = await this.databaseService.user.findUnique({ where: { id } });
+    const currentPasswordIsCorrect = await bcrypt.compare(
+      changePasswordDto.currentPassword,
+      user.hashedPassword,
+    );
+    if (!currentPasswordIsCorrect) {
+      throw new BadRequestException('Current password is wrong.');
+    }
+
     const saltRounds = 10;
     return this.databaseService.user.update({
       where: { id },
