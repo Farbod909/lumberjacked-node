@@ -21,6 +21,17 @@ export class MovementsService {
       where: {
         authorId,
       },
+      select: {
+        name: true,
+        split: true,
+        movementLogs: {
+          orderBy: {
+            timestamp: 'desc',
+          },
+          take: 1,
+          select: { reps: true, load: true },
+        },
+      },
     });
   }
 
