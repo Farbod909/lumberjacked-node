@@ -7,19 +7,19 @@ import { CreateMovementDto } from './dto/create-movement.dto';
 export class MovementsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createMovementDto: CreateMovementDto) {
+  create(createMovementDto: CreateMovementDto, authorId: number) {
     return this.databaseService.movement.create({
       data: {
-        authorId: 2, // TODO: get this from the session once authentication is implemented.
+        authorId,
         ...createMovementDto,
       },
     });
   }
 
-  findAll() {
+  findAll(authorId: number) {
     return this.databaseService.movement.findMany({
       where: {
-        authorId: 2, // TODO: get this from the session once authentication is implemented.
+        authorId,
       },
     });
   }

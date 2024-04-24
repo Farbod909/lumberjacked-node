@@ -10,6 +10,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { RedisModule } from './redis/redis.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './authentication/authentication.guard';
+import { AuthorizationModule } from './authorization/authorization.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthenticationGuard } from './authentication/authentication.guard';
     CommonModule,
     AuthenticationModule,
     RedisModule,
+    AuthorizationModule,
   ],
   controllers: [AppController],
   providers: [

@@ -7,12 +7,15 @@ import {
   Param,
   Delete,
   Put,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SkipAuthentication } from 'src/authentication/decorators/skip-authentication.decorator';
+import { CurrentUser } from 'src/authentication/decorators/current-user.decorator';
+import UserSessionInfo from 'src/authentication/entities/UserSessionInfo';
 
 @Controller('users')
 export class UsersController {
@@ -33,7 +36,11 @@ export class UsersController {
    * Only authorized if this is the logged-in user.
    */
   @Get(':id')
-  getById(@Param('id') id: number) {
+  getById(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
+    if (user.id !== id) {
+      throw new UnauthorizedException();
+    }
+
     return this.usersService.getById(id);
   }
 
@@ -43,7 +50,14 @@ export class UsersController {
    * Only authorized if this email belongs to the logged-in user.
    */
   @Get(':email')
-  getByEmail(@Param('email') email: string) {
+  getByEmail(
+    @CurrentUser() user: UserSessionInfo,
+    @Param('email') email: string,
+  ) {
+    if (user.email !== email) {
+      throw new UnauthorizedException();
+    }
+
     return this.usersService.getByEmail(email);
   }
 
@@ -53,7 +67,15 @@ export class UsersController {
    * Only authorized if this is the logged-in user.
    */
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @CurrentUser() user: UserSessionInfo,
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    if (user.id !== id) {
+      throw new UnauthorizedException();
+    }
+
     return this.usersService.update(id, updateUserDto);
   }
 
@@ -64,14 +86,28 @@ export class UsersController {
    */
   @Put(':id/password')
   changePassword(
+    @CurrentUser() user: UserSessionInfo,
     @Param('id') id: number,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
+    if (user.id !== id) {
+      throw new UnauthorizedException();
+    }
+
     return this.usersService.changePassword(id, changePasswordDto);
   }
 
+  /**
+   * Delete a user.
+   *
+   * Only authorized if this is the logged-in user.
+   */
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
+    if (user.id !== id) {
+      throw new UnauthorizedException();
+    }
+
     return this.usersService.remove(id);
   }
 }
