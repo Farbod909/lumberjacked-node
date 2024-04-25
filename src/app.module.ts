@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { MovementsModule } from './movements/movements.module';
@@ -23,9 +21,7 @@ import { AuthorizationModule } from './authorization/authorization.module';
     RedisModule,
     AuthorizationModule,
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: AuthenticationGuard,
