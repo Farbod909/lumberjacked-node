@@ -5,7 +5,7 @@ import { SkipAuthentication } from './decorators/skip-authentication.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 import UserSessionInfo from './entities/UserSessionInfo';
 
-@Controller('authentication')
+@Controller('auth')
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
