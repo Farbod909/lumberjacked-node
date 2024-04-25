@@ -8,5 +8,6 @@ import { AuthorizationModule } from 'src/authorization/authorization.module';
   imports: [DatabaseModule, AuthorizationModule],
   controllers: [MovementLogsController],
   providers: [MovementLogsService],
+  exports: [MovementLogsService],
 })
 export class MovementLogsModule {}

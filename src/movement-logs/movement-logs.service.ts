@@ -7,9 +7,12 @@ import { CreateMovementLogDto } from './dto/create-movement-log.dto';
 export class MovementLogsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createMovementLogDto: CreateMovementLogDto) {
+  create(movementId: number, createMovementLogDto: CreateMovementLogDto) {
     return this.databaseService.movementLog.create({
-      data: createMovementLogDto,
+      data: {
+        movementId,
+        ...createMovementLogDto,
+      },
     });
   }
 

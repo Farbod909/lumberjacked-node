@@ -3,10 +3,6 @@ import { IsInt, IsNumber, Max, Min } from 'class-validator';
 export class CreateMovementLogDto {
   @IsInt()
   @Min(1)
-  movementId: number;
-
-  @IsInt()
-  @Min(1)
   @Max(999)
   sets: number;
 

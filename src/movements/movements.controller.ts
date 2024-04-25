@@ -14,11 +14,14 @@ import { UpdateMovmenentDto } from './dto/update-movement.dto';
 import { CurrentUser } from 'src/authentication/decorators/current-user.decorator';
 import UserSessionInfo from 'src/authentication/entities/UserSessionInfo';
 import { AuthorizationService } from 'src/authorization/authorization.service';
+import { CreateMovementLogDto } from 'src/movement-logs/dto/create-movement-log.dto';
+import { MovementLogsService } from 'src/movement-logs/movement-logs.service';
 
 @Controller('movements')
 export class MovementsController {
   constructor(
     private readonly movementsService: MovementsService,
+    private readonly movementLogsService: MovementLogsService,
     private readonly authorizationService: AuthorizationService,
   ) {}
 
@@ -44,7 +47,7 @@ export class MovementsController {
   /**
    * Get a single movement based on movement ID.
    *
-   * Only authorized if logged-in user is author of requested movement.
+   * Only authorized if logged-in user is author of the movement.
    */
   @Get(':id')
   async findOne(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
@@ -60,7 +63,7 @@ export class MovementsController {
   /**
    * Update a single movement based on movement ID.
    *
-   * Only authorized if logged-in user is author of requested movement.
+   * Only authorized if logged-in user is author of the movement.
    */
   @Patch(':id')
   async update(
@@ -80,7 +83,7 @@ export class MovementsController {
   /**
    * Delete a single movement based on movement ID.
    *
-   * Only authorized if logged-in user is author of requested movement.
+   * Only authorized if logged-in user is author of the movement.
    */
   @Delete(':id')
   async remove(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
@@ -91,5 +94,44 @@ export class MovementsController {
     }
 
     return this.movementsService.remove(id);
+  }
+
+  /**
+   * Creates a movement log.
+   *
+   * Only authorized if logged-in user is author of the movement.
+   */
+  @Post('/:id/logs')
+  async createMovementLog(
+    @CurrentUser() user: UserSessionInfo,
+    @Param() id: number,
+    @Body() createMovementLogDto: CreateMovementLogDto,
+  ) {
+    const isAuthorized =
+      await this.authorizationService.userHasAccessToMovement(user.id, id);
+    if (!isAuthorized) {
+      throw new UnauthorizedException();
+    }
+
+    return this.movementLogsService.create(id, createMovementLogDto);
+  }
+
+  /**
+   * Get all movement logs for a given movement.
+   *
+   * Only authorized if logged-in user is author of the movement.
+   */
+  @Get(':id/logs')
+  async findAllMovementLogs(
+    @CurrentUser() user: UserSessionInfo,
+    @Param('id') id: number,
+  ) {
+    const isAuthorized =
+      await this.authorizationService.userHasAccessToMovement(user.id, id);
+    if (!isAuthorized) {
+      throw new UnauthorizedException();
+    }
+
+    return this.movementLogsService.findAll(id);
   }
 }
