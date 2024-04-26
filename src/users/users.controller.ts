@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Put,
-  UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
