@@ -1,11 +1,22 @@
-import { IntersectionType, PickType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './create-user.dto';
+import { IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
+import { Match } from 'src/common/validation-decorators/Match.decorator';
 
-class CurrentPasswordInfo {
+export class ChangePasswordDto {
+  @IsNotEmpty()
+  @IsString()
   currentPassword: string;
-}
 
-export class ChangePasswordDto extends IntersectionType(
-  PickType(CreateUserDto, ['password', 'passwordConfirmation'] as const),
-  CurrentPasswordInfo,
-) {}
+  @IsStrongPassword({
+    minLength: 8,
+    minLowercase: 1,
+    minNumbers: 1,
+    minUppercase: 1,
+    minSymbols: 0,
+  })
+  newPassword: string;
+
+  @Match('newPassword', {
+    message: 'new password does not match confirmation.',
+  })
+  newPasswordConfirmation: string;
+}

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   CanActivate,
   ExecutionContext,
   ForbiddenException,
@@ -53,6 +54,7 @@ export class AuthorizationGuard implements CanActivate {
       );
 
     if (!authorizationPolicyConfig) {
+      // If no authorization policy is specified, allow all requests.
       return true;
     }
 
@@ -102,10 +104,16 @@ export class AuthorizationGuard implements CanActivate {
       config.resourceAccess.resourceIdFieldName = 'id';
     }
 
-    const resourceId: number =
-      +request[config.resourceAccess.resourceIdContainer][
+    const resourceId: number = parseInt(
+      request[config.resourceAccess.resourceIdContainer][
         config.resourceAccess.resourceIdFieldName
-      ];
+      ],
+    );
+    if (Number.isNaN(resourceId)) {
+      throw new BadRequestException(
+        `${config.resourceAccess.resourceIdContainer}.${config.resourceAccess.resourceIdFieldName} field must be a number.`,
+      );
+    }
     const resourceType = config.resourceAccess.resourceType;
 
     return this.authorizationService.userHasAccessToResource(

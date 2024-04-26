@@ -44,7 +44,10 @@ export class UsersService {
   }
 
   async changePassword(id: number, changePasswordDto: ChangePasswordDto) {
-    if (changePasswordDto.password !== changePasswordDto.passwordConfirmation) {
+    if (
+      changePasswordDto.newPassword !==
+      changePasswordDto.newPasswordConfirmation
+    ) {
       throw new BadRequestException('Passwords do not match.');
     }
 
@@ -62,7 +65,7 @@ export class UsersService {
       where: { id },
       data: {
         hashedPassword: await bcrypt.hash(
-          changePasswordDto.password,
+          changePasswordDto.newPassword,
           saltRounds,
         ),
       },
