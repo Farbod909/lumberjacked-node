@@ -8,6 +8,7 @@ import {
   Delete,
   Put,
   UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
@@ -60,7 +61,7 @@ export class UsersController {
     @Param('email') email: string,
   ) {
     if (user.email !== email) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     return this.usersService.getByEmail(email);
