@@ -36,7 +36,7 @@ export class AuthenticationGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    user.access_token = token;
+    user.accessToken = token;
     request['user'] = user;
     return true;
   }

@@ -9,6 +9,18 @@ export class RedisRepository implements OnModuleDestroy {
     this.redisClient.disconnect();
   }
 
+  async startTransaction() {
+    await this.redisClient.multi({ pipeline: false });
+  }
+
+  async endTransaction() {
+    await this.redisClient.exec();
+  }
+
+  async setExpiration(prefix: string, key: string, seconds: number) {
+    await this.redisClient.expire(`${prefix}:${key}`, seconds);
+  }
+
   async getHash(prefix: string, key: string): Promise<any | null> {
     return this.redisClient.hgetall(`${prefix}:${key}`);
   }

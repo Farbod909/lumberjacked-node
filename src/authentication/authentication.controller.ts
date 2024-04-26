@@ -16,8 +16,8 @@ export class AuthenticationController {
   }
 
   @Get('/logout')
-  logout(@CurrentUser() user) {
-    return this.authenticationService.logout(user.access_token);
+  logout(@CurrentUser() user: UserSessionInfo) {
+    return this.authenticationService.logout(user.accessToken);
   }
 
   @Get('/logout-all')

@@ -6,7 +6,7 @@ export const CurrentUser = createParamDecorator(
     const { id, ...user } = request.user;
     return {
       id: +id,
-      user,
+      ...user,
     };
   },
 );

@@ -5,7 +5,7 @@ export default class UserSessionInfo {
   email: string;
   firstName: string;
   lastName: string;
-  access_token?: string;
+  accessToken?: string;
 
   public static fromUser(user: User): UserSessionInfo {
     return {
