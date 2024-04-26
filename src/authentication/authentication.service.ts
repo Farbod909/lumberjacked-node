@@ -1,16 +1,28 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  OnModuleInit,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { SessionService } from './session.service';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { LoginDTO } from './dto/login.dto';
 import UserSessionInfo from './entities/UserSessionInfo';
+import { ModuleRef } from '@nestjs/core';
 
 @Injectable()
-export class AuthenticationService {
+export class AuthenticationService implements OnModuleInit {
+  private usersService: UsersService;
   constructor(
-    private readonly usersService: UsersService,
     private readonly sessionService: SessionService,
+    private readonly moduleRef: ModuleRef,
   ) {}
+
+  onModuleInit() {
+    this.usersService = this.moduleRef.get(UsersService, {
+      strict: false,
+    });
+  }
 
   async login(loginDto: LoginDTO) {
     const user = await this.usersService.getByEmail(loginDto.email);

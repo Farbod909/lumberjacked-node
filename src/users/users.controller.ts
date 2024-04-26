@@ -8,6 +8,7 @@ import {
   Delete,
   Put,
   ForbiddenException,
+  OnModuleInit,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
@@ -20,10 +21,22 @@ import {
   AuthorizationPolicy,
   AuthorizationResourceType,
 } from 'src/authorization/authorization.guard';
+import { AuthenticationService } from 'src/authentication/authentication.service';
+import { ModuleRef } from '@nestjs/core';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UsersController implements OnModuleInit {
+  private authenticationService: AuthenticationService;
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly moduleRef: ModuleRef,
+  ) {}
+
+  onModuleInit() {
+    this.authenticationService = this.moduleRef.get(AuthenticationService, {
+      strict: false,
+    });
+  }
 
   /**
    * Create a user (aka signup).
@@ -83,6 +96,7 @@ export class UsersController {
 
   /**
    * Change a single user's password.
+   * Subsequently logs out of all sessions for this user.
    *
    * Only authorized if this is the logged-in user.
    */
@@ -92,11 +106,12 @@ export class UsersController {
     },
   })
   @Put(':id/password')
-  changePassword(
+  async changePassword(
     @Param('id') id: number,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
-    return this.usersService.changePassword(id, changePasswordDto);
+    await this.usersService.changePassword(id, changePasswordDto);
+    await this.authenticationService.logoutAllSessions(id);
   }
 
   /**
