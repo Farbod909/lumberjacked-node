@@ -1,17 +1,11 @@
-import {
-  Controller,
-  Get,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MovementLogsService } from './movement-logs.service';
 import { UpdateMovementLogDto } from './dto/update-movement-log.dto';
 import { AuthorizationService } from 'src/authorization/authorization.service';
-import { CurrentUser } from 'src/authentication/decorators/current-user.decorator';
-import UserSessionInfo from 'src/authentication/entities/UserSessionInfo';
+import {
+  AuthorizationPolicy,
+  AuthorizationResourceType,
+} from 'src/authorization/authorization.guard';
 
 @Controller('movement-logs')
 export class MovementLogsController {
@@ -25,14 +19,13 @@ export class MovementLogsController {
    *
    * Only authorized if logged-in user is author of the movement associated with the movement log.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.MovementLog,
+    },
+  })
   @Get(':id')
-  async findOne(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovementLog(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
+  async findOne(@Param('id') id: number) {
     return this.movementLogsService.findOne(id);
   }
 
@@ -41,18 +34,16 @@ export class MovementLogsController {
    *
    * Only authorized if logged-in user is author of the movement associated with the movement log.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.MovementLog,
+    },
+  })
   @Patch(':id')
   async update(
-    @CurrentUser() user: UserSessionInfo,
     @Param('id') id: number,
     @Body() updateMovementLogDto: UpdateMovementLogDto,
   ) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovementLog(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
     return this.movementLogsService.update(id, updateMovementLogDto);
   }
 
@@ -61,14 +52,13 @@ export class MovementLogsController {
    *
    * Only authorized if logged-in user is author of the movement associated with the movement log.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.MovementLog,
+    },
+  })
   @Delete(':id')
-  async remove(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovementLog(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
+  async remove(@Param('id') id: number) {
     return this.movementLogsService.remove(id);
   }
 }

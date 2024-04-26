@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { MovementsService } from './movements.service';
 import { CreateMovementDto } from './dto/create-movement.dto';
@@ -16,6 +15,10 @@ import UserSessionInfo from 'src/authentication/entities/UserSessionInfo';
 import { AuthorizationService } from 'src/authorization/authorization.service';
 import { CreateMovementLogDto } from 'src/movement-logs/dto/create-movement-log.dto';
 import { MovementLogsService } from 'src/movement-logs/movement-logs.service';
+import {
+  AuthorizationPolicy,
+  AuthorizationResourceType,
+} from 'src/authorization/authorization.guard';
 
 @Controller('movements')
 export class MovementsController {
@@ -49,14 +52,13 @@ export class MovementsController {
    *
    * Only authorized if logged-in user is author of the movement.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.Movement,
+    },
+  })
   @Get(':id')
-  async findOne(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovement(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
+  async findOne(@Param('id') id: number) {
     return this.movementsService.findOne(id);
   }
 
@@ -65,18 +67,16 @@ export class MovementsController {
    *
    * Only authorized if logged-in user is author of the movement.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.Movement,
+    },
+  })
   @Patch(':id')
   async update(
-    @CurrentUser() user: UserSessionInfo,
     @Param('id') id: number,
     @Body() updateMovementDto: UpdateMovmenentDto,
   ) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovement(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
     return this.movementsService.update(id, updateMovementDto);
   }
 
@@ -85,14 +85,13 @@ export class MovementsController {
    *
    * Only authorized if logged-in user is author of the movement.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.Movement,
+    },
+  })
   @Delete(':id')
-  async remove(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovement(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
+  async remove(@Param('id') id: number) {
     return this.movementsService.remove(id);
   }
 
@@ -101,18 +100,16 @@ export class MovementsController {
    *
    * Only authorized if logged-in user is author of the movement.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.Movement,
+    },
+  })
   @Post('/:id/logs')
   async createMovementLog(
-    @CurrentUser() user: UserSessionInfo,
     @Param() id: number,
     @Body() createMovementLogDto: CreateMovementLogDto,
   ) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovement(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
     return this.movementLogsService.create(id, createMovementLogDto);
   }
 
@@ -121,17 +118,13 @@ export class MovementsController {
    *
    * Only authorized if logged-in user is author of the movement.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.Movement,
+    },
+  })
   @Get(':id/logs')
-  async findAllMovementLogs(
-    @CurrentUser() user: UserSessionInfo,
-    @Param('id') id: number,
-  ) {
-    const isAuthorized =
-      await this.authorizationService.userHasAccessToMovement(user.id, id);
-    if (!isAuthorized) {
-      throw new UnauthorizedException();
-    }
-
+  async findAllMovementLogs(@Param('id') id: number) {
     return this.movementLogsService.findAll(id);
   }
 }

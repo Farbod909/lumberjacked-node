@@ -9,6 +9,7 @@ import { RedisModule } from './redis/redis.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './authentication/authentication.guard';
 import { AuthorizationModule } from './authorization/authorization.module';
+import { AuthorizationGuard } from './authorization/authorization.guard';
 
 @Module({
   imports: [
@@ -25,6 +26,10 @@ import { AuthorizationModule } from './authorization/authorization.module';
     {
       provide: APP_GUARD,
       useClass: AuthenticationGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthorizationGuard,
     },
   ],
 })

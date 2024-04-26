@@ -16,6 +16,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { SkipAuthentication } from 'src/authentication/decorators/skip-authentication.decorator';
 import { CurrentUser } from 'src/authentication/decorators/current-user.decorator';
 import UserSessionInfo from 'src/authentication/entities/UserSessionInfo';
+import {
+  AuthorizationPolicy,
+  AuthorizationResourceType,
+} from 'src/authorization/authorization.guard';
 
 @Controller('users')
 export class UsersController {
@@ -35,12 +39,13 @@ export class UsersController {
    *
    * Only authorized if this is the logged-in user.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.User,
+    },
+  })
   @Get(':id')
-  getById(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
-    if (user.id !== id) {
-      throw new UnauthorizedException();
-    }
-
+  getById(@Param('id') id: number) {
     return this.usersService.getById(id);
   }
 
@@ -66,16 +71,13 @@ export class UsersController {
    *
    * Only authorized if this is the logged-in user.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.User,
+    },
+  })
   @Patch(':id')
-  update(
-    @CurrentUser() user: UserSessionInfo,
-    @Param('id') id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    if (user.id !== id) {
-      throw new UnauthorizedException();
-    }
-
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
@@ -84,16 +86,16 @@ export class UsersController {
    *
    * Only authorized if this is the logged-in user.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.User,
+    },
+  })
   @Put(':id/password')
   changePassword(
-    @CurrentUser() user: UserSessionInfo,
     @Param('id') id: number,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
-    if (user.id !== id) {
-      throw new UnauthorizedException();
-    }
-
     return this.usersService.changePassword(id, changePasswordDto);
   }
 
@@ -102,12 +104,13 @@ export class UsersController {
    *
    * Only authorized if this is the logged-in user.
    */
+  @AuthorizationPolicy({
+    resourceAccess: {
+      resourceType: AuthorizationResourceType.User,
+    },
+  })
   @Delete(':id')
-  remove(@CurrentUser() user: UserSessionInfo, @Param('id') id: number) {
-    if (user.id !== id) {
-      throw new UnauthorizedException();
-    }
-
+  remove(@Param('id') id: number) {
     return this.usersService.remove(id);
   }
 }
