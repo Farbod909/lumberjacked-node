@@ -45,12 +45,11 @@ export class SessionService {
   }
 
   async deleteAllSessionsForUser(userId: number) {
-    await this.redisRepository.startTransaction();
     const tokens = await this.redisRepository.getSet(
       'sessions-userid',
       userId.toString(),
     );
-
+    await this.redisRepository.startTransaction();
     await Promise.all(
       tokens.map(async (token) => {
         await this.redisRepository.delete('session', token);
