@@ -24,9 +24,4 @@ export class AuthenticationController {
   logoutAllSessions(@CurrentUser() user: UserSessionInfo) {
     return this.authenticationService.logoutAllSessions(user.id);
   }
-
-  @Get('profile')
-  getProfile(@CurrentUser() user: UserSessionInfo) {
-    return user;
-  }
 }
