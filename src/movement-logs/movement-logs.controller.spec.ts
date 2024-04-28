@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MovementLogsController } from './movement-logs.controller';
 import { MovementLogsService } from './movement-logs.service';
-import { Decimal } from '@prisma/client/runtime/library';
 import { UpdateMovementLogDto } from './dto/update-movement-log.dto';
 
 const kMovementLogId = 1;
@@ -9,7 +8,7 @@ const kMovementId = 1;
 const kMovementLog = {
   sets: 3,
   reps: 12,
-  load: new Decimal(47.5),
+  load: 47.5,
   timestamp: Date.parse('2024-04-12T03:24:00'),
 };
 
