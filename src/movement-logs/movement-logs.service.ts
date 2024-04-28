@@ -23,7 +23,7 @@ export class MovementLogsService {
   }
 
   findOne(id: number) {
-    return this.databaseService.movementLog.findUnique({
+    return this.databaseService.movementLog.findUniqueOrThrow({
       where: { id },
     });
   }

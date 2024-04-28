@@ -1,7 +1,6 @@
 import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MovementLogsService } from './movement-logs.service';
 import { UpdateMovementLogDto } from './dto/update-movement-log.dto';
-import { AuthorizationService } from 'src/authorization/authorization.service';
 import {
   AuthorizationPolicy,
   AuthorizationResourceType,
@@ -9,10 +8,7 @@ import {
 
 @Controller('movement-logs')
 export class MovementLogsController {
-  constructor(
-    private readonly movementLogsService: MovementLogsService,
-    private readonly authorizationService: AuthorizationService,
-  ) {}
+  constructor(private readonly movementLogsService: MovementLogsService) {}
 
   /**
    * Get a single movement log based on its ID.
