@@ -12,7 +12,6 @@ import { CreateMovementDto } from './dto/create-movement.dto';
 import { UpdateMovmenentDto } from './dto/update-movement.dto';
 import { CurrentUser } from 'src/authentication/decorators/current-user.decorator';
 import UserSessionInfo from 'src/authentication/entities/UserSessionInfo';
-import { AuthorizationService } from 'src/authorization/authorization.service';
 import { CreateMovementLogDto } from 'src/movement-logs/dto/create-movement-log.dto';
 import { MovementLogsService } from 'src/movement-logs/movement-logs.service';
 import {
@@ -25,7 +24,6 @@ export class MovementsController {
   constructor(
     private readonly movementsService: MovementsService,
     private readonly movementLogsService: MovementLogsService,
-    private readonly authorizationService: AuthorizationService,
   ) {}
 
   /**

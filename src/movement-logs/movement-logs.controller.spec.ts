@@ -1,45 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MovementLogsController } from './movement-logs.controller';
 import { MovementLogsService } from './movement-logs.service';
-import { UpdateMovementLogDto } from './dto/update-movement-log.dto';
-
-const kMovementLogId = 1;
-const kMovementId = 1;
-const kMovementLog = {
-  sets: 3,
-  reps: 12,
-  load: 47.5,
-  timestamp: Date.parse('2024-04-12T03:24:00'),
-};
-
-const mockMovementLogsService = {
-  findOne: jest.fn().mockImplementation((id: number) => {
-    return {
-      id,
-      movementId: kMovementId,
-      ...kMovementLog,
-    };
-  }),
-  update: jest
-    .fn()
-    .mockImplementation(
-      (movementId: number, updateMovementLogDto: UpdateMovementLogDto) => {
-        return {
-          id: kMovementLogId,
-          movementId,
-          ...kMovementLog,
-          ...updateMovementLogDto, // overrides any value in kMovementLog, if the value is set in the update DTO.
-        };
-      },
-    ),
-  remove: jest.fn().mockImplementation((id: number) => {
-    return {
-      id,
-      movementId: kMovementId,
-      ...kMovementLog,
-    };
-  }),
-};
+import {
+  movementLogsServiceMock,
+  defaultMovementLogId,
+  defaultMovementId,
+  defaultMovementLog,
+} from 'src/testing/movement-logs.service.mock';
 
 describe('MovementLogsController', () => {
   let controller: MovementLogsController;
@@ -51,7 +18,7 @@ describe('MovementLogsController', () => {
       providers: [MovementLogsService],
     })
       .overrideProvider(MovementLogsService)
-      .useValue(mockMovementLogsService)
+      .useValue(movementLogsServiceMock)
       .compile();
 
     controller = module.get<MovementLogsController>(MovementLogsController);
@@ -64,11 +31,12 @@ describe('MovementLogsController', () => {
 
   it('should find a movement log', async () => {
     const expectedMovementLog = {
-      id: kMovementLogId,
-      movementId: kMovementId,
-      ...kMovementLog,
+      id: defaultMovementLogId,
+      movementId: defaultMovementId,
+      ...defaultMovementLog,
     };
-    const resultMovementLog = await controller.findOne(kMovementLogId);
+
+    const resultMovementLog = await controller.findOne(defaultMovementLogId);
 
     expect(service.findOne).toHaveBeenCalledTimes(1);
     expect(resultMovementLog).toStrictEqual(expectedMovementLog);
@@ -80,15 +48,15 @@ describe('MovementLogsController', () => {
     };
     const expectedMovementLog = Object.assign(
       {
-        id: kMovementId,
-        movementId: kMovementLogId,
-        ...kMovementLog,
+        id: defaultMovementLogId,
+        movementId: defaultMovementId,
+        ...defaultMovementLog,
       },
       updateMovementLogDto,
     );
 
     const resultMovementLog = await controller.update(
-      kMovementLogId,
+      defaultMovementLogId,
       updateMovementLogDto,
     );
 
@@ -96,13 +64,14 @@ describe('MovementLogsController', () => {
     expect(resultMovementLog).toStrictEqual(expectedMovementLog);
   });
 
-  it('should remove a movement log', async () => {
+  it('should delete a movement log', async () => {
     const expectedMovementLog = {
-      id: kMovementLogId,
-      movementId: kMovementId,
-      ...kMovementLog,
+      id: defaultMovementLogId,
+      movementId: defaultMovementId,
+      ...defaultMovementLog,
     };
-    const resultMovementLog = await controller.remove(kMovementLogId);
+
+    const resultMovementLog = await controller.remove(defaultMovementLogId);
 
     expect(service.remove).toHaveBeenCalledTimes(1);
     expect(resultMovementLog).toStrictEqual(expectedMovementLog);
