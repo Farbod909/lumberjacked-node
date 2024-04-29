@@ -37,7 +37,7 @@ export class MovementsService {
   }
 
   findOne(id: number) {
-    return this.databaseService.movement.findUnique({
+    return this.databaseService.movement.findUniqueOrThrow({
       where: { id },
     });
   }
