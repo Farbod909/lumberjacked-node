@@ -61,7 +61,7 @@ export class UsersService {
     }
 
     const saltRounds = 10;
-    return this.databaseService.user.update({
+    await this.databaseService.user.update({
       where: { id },
       data: {
         hashedPassword: await bcrypt.hash(
