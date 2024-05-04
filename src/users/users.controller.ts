@@ -6,12 +6,10 @@ import {
   Patch,
   Param,
   Delete,
-  Put,
   ForbiddenException,
   OnModuleInit,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SkipAuthentication } from 'src/authentication/decorators/skip-authentication.decorator';
@@ -92,26 +90,6 @@ export class UsersController implements OnModuleInit {
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
-  }
-
-  /**
-   * Change a single user's password.
-   * Subsequently logs out of all sessions for this user.
-   *
-   * Only authorized if this is the logged-in user.
-   */
-  @AuthorizationPolicy({
-    resourceAccess: {
-      resourceType: AuthorizationResourceType.User,
-    },
-  })
-  @Put(':id/password')
-  async changePassword(
-    @Param('id') id: number,
-    @Body() changePasswordDto: ChangePasswordDto,
-  ) {
-    await this.usersService.changePassword(id, changePasswordDto);
-    await this.authenticationService.logoutAllSessions(id);
   }
 
   /**

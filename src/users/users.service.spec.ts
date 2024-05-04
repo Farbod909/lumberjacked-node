@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { DatabaseService } from 'src/database/database.service';
-import { AuthenticationService } from 'src/authentication/authentication.service';
-import { authenticationServiceMock } from 'src/testing/authentication.service.mock';
 
 jest.mock('@prisma/client', () => {
   return {
@@ -16,11 +14,8 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService, DatabaseService, AuthenticationService],
-    })
-      .overrideProvider(AuthenticationService)
-      .useValue(authenticationServiceMock)
-      .compile();
+      providers: [UsersService, DatabaseService],
+    }).compile();
 
     service = module.get<UsersService>(UsersService);
   });
@@ -114,41 +109,14 @@ describe('UsersService', () => {
     await expect(service.getById(createdUser.id)).resolves.toBeNull();
   });
 
-  it('should change password successfully', async () => {
+  it('should update password successfully', async () => {
     const createdUser = await createDefaultUser();
+    const newPassword = 'hunter3';
 
-    await service.changePassword(createdUser.id, {
-      currentPassword: 'hunter2',
-      newPassword: 'hunter3',
-      newPasswordConfirmation: 'hunter3',
-    });
+    await service.updatePassword(createdUser.id, newPassword);
 
     const foundUser = await service.getById(createdUser.id);
 
     expect(createdUser.hashedPassword).not.toEqual(foundUser.hashedPassword);
-  });
-
-  it('should not change password if new passwords do not match', async () => {
-    const createdUser = await createDefaultUser();
-
-    await expect(
-      service.changePassword(createdUser.id, {
-        currentPassword: 'hunter2',
-        newPassword: 'hunter3',
-        newPasswordConfirmation: 'hunter4',
-      }),
-    ).rejects.toThrow('do not match');
-  });
-
-  it('should not change password if current password is incorrect', async () => {
-    const createdUser = await createDefaultUser();
-
-    await expect(
-      service.changePassword(createdUser.id, {
-        currentPassword: 'hunter3',
-        newPassword: 'hunter4',
-        newPasswordConfirmation: 'hunter4',
-      }),
-    ).rejects.toThrow('password is wrong');
   });
 });

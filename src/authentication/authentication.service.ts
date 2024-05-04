@@ -1,6 +1,6 @@
 import {
+  BadRequestException,
   Injectable,
-  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
 import { SessionService } from './session.service';
@@ -8,21 +8,14 @@ import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { LoginDTO } from './dto/login.dto';
 import UserSessionInfo from './entities/UserSessionInfo';
-import { ModuleRef } from '@nestjs/core';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
-export class AuthenticationService implements OnModuleInit {
-  private usersService: UsersService;
+export class AuthenticationService {
   constructor(
     private readonly sessionService: SessionService,
-    private readonly moduleRef: ModuleRef,
+    private readonly usersService: UsersService,
   ) {}
-
-  onModuleInit() {
-    this.usersService = this.moduleRef.get(UsersService, {
-      strict: false,
-    });
-  }
 
   async login(loginDto: LoginDTO) {
     const user = await this.usersService.getByEmail(loginDto.email);
@@ -54,5 +47,28 @@ export class AuthenticationService implements OnModuleInit {
 
   async logoutAllSessions(userId: number) {
     await this.sessionService.deleteAllSessionsForUser(userId);
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto) {
+    if (
+      changePasswordDto.newPassword !==
+      changePasswordDto.newPasswordConfirmation
+    ) {
+      throw new BadRequestException('Passwords do not match.');
+    }
+
+    const user = await this.usersService.getById(changePasswordDto.userId);
+    const currentPasswordIsCorrect = await bcrypt.compare(
+      changePasswordDto.currentPassword,
+      user.hashedPassword,
+    );
+    if (!currentPasswordIsCorrect) {
+      throw new BadRequestException('Current password is wrong.');
+    }
+
+    await this.usersService.updatePassword(
+      changePasswordDto.userId,
+      changePasswordDto.newPassword,
+    );
   }
 }

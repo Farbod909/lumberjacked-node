@@ -1,4 +1,3 @@
-import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -44,21 +43,13 @@ export const usersServiceMock = {
         ...updateUserDto,
       };
     }),
-  changePassword: jest
-    .fn()
-    .mockImplementation(
-      async (id: number, changePasswordDto: ChangePasswordDto) => {
-        return {
-          ...defaultUser,
-          id,
-          password: await bcrypt.hash(changePasswordDto.newPassword, 10),
-        };
-      },
-    ),
   remove: jest.fn().mockImplementation((id: number) => {
     return {
       ...defaultUser,
       id,
     };
+  }),
+  updatePassword: jest.fn().mockImplementation(() => {
+    return;
   }),
 };

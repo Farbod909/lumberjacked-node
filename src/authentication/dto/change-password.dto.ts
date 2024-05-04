@@ -1,7 +1,16 @@
-import { IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 import { Match } from 'src/common/validation-decorators/Match.decorator';
 
 export class ChangePasswordDto {
+  @IsNotEmpty()
+  @IsNumber()
+  userId: number;
+
   @IsNotEmpty()
   @IsString()
   currentPassword: string;
