@@ -5,7 +5,7 @@ import {
   defaultMovement,
   defaultMovementId,
   defaultUserId,
-} from 'src/testing/movement.service.mock';
+} from 'src/testing/movements.service.mock';
 
 jest.mock('@prisma/client', () => {
   return {

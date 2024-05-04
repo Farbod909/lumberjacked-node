@@ -6,7 +6,7 @@ import {
   defaultMovement,
   defaultMovementId,
   defaultUserId,
-} from 'src/testing/movement.service.mock';
+} from 'src/testing/movements.service.mock';
 import { MovementLogsService } from 'src/movement-logs/movement-logs.service';
 import UserSessionInfo from 'src/authentication/entities/UserSessionInfo';
 import {
