@@ -21,7 +21,7 @@ export class AuthorizationService {
     }
   }
 
-  async userHasAccessToMovement(userId: number, movementId: number) {
+  private async userHasAccessToMovement(userId: number, movementId: number) {
     const userOwnsMovement = await this.databaseService.movement
       .findFirst({
         where: { id: movementId, authorId: userId },
@@ -30,7 +30,10 @@ export class AuthorizationService {
     return userOwnsMovement;
   }
 
-  async userHasAccessToMovementLog(userId: number, movementLogId: number) {
+  private async userHasAccessToMovementLog(
+    userId: number,
+    movementLogId: number,
+  ) {
     const userOwnsMovementLog = await this.databaseService.movementLog
       .findFirst({
         where: {

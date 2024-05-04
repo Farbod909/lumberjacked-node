@@ -3,7 +3,7 @@ import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 
-const defaultUser: User = {
+export const defaultUser: User = {
   id: 1,
   firstName: 'John',
   lastName: 'Doe',

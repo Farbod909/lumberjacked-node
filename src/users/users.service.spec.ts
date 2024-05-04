@@ -86,8 +86,6 @@ describe('UsersService', () => {
       lastName: 'Testenheimer',
     });
 
-    console.log(updatedUser);
-
     // TODO: Ideally we want to test this, but prismock does not support @updatedat tag yet.
     // expect(updatedUser.updatedAt).not.toBeNull();
 
