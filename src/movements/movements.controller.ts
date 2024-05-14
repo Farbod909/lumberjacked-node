@@ -105,7 +105,7 @@ export class MovementsController {
   })
   @Post('/:id/logs')
   async createMovementLog(
-    @Param() id: number,
+    @Param('id') id: number,
     @Body() createMovementLogDto: CreateMovementLogDto,
   ) {
     return this.movementLogsService.create(id, createMovementLogDto);
