@@ -2,23 +2,16 @@
 
 A tool to help fitness enthusiasts log their workouts, aiding in progressive overload.
 
-## Installing dependencies
+## Running locally
+
+### Prerequisites
+
+- Docker is installed on your workstation.
+
+### Use Docker Compose to run dev server
 
 ```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ docker-compose -f dev-compose.yml up -V --build
 ```
 
 ## Test
@@ -26,10 +19,4 @@ $ npm run start:prod
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```

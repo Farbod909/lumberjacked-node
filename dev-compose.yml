@@ -29,7 +29,7 @@ services:
   db:
     image: postgres:16.3
     restart: always
-    container_name: dev-db
+    container_name: db-dev
     ports:
       - '5432:5432'
     environment:
@@ -42,7 +42,7 @@ services:
   redis:
     image: redis:7.2.4
     restart: always
-    container_name: dev-redis
+    container_name: redis-dev
     ports:
       - '6379:6379'
     volumes:
