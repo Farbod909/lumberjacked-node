@@ -15,7 +15,7 @@ services:
     restart: always
     container_name: backend-dev
     ports:
-      - '3000:3000'
+      - '${PORT}:${PORT}'
     environment:
       DATABASE_URL: 'postgresql://admin:password@db:5432/dev'
       DIRECT_URL: 'postgresql://admin:password@db:5432/dev'
