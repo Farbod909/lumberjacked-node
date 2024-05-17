@@ -50,9 +50,9 @@ on:
 
 env:
   PROJECT_ID: lumberjacked
-  GAR_LOCATION: us-west-2
+  GAR_LOCATION: us-west2
   SERVICE: lumberjacked
-  REGION: us-west-2
+  REGION: us-west2
 
 jobs:
   deploy:
