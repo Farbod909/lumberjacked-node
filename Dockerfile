@@ -1,54 +1,27 @@
-###################
-# BUILD FOR LOCAL DEVELOPMENT
-###################
-
-FROM node:20 As development
-
-# Required for Prisma Client to work in container
-RUN apt-get update && apt-get install -y openssl
+FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json ./
+COPY --chown=node:node . .
 
 RUN npm ci
 
-COPY --chown=node:node . .
-
-RUN npm run prisma:generate
-
-USER node
-
-###################
-# BUILD FOR PRODUCTION
-###################
-
-FROM node:20-alpine As build
-
-WORKDIR /usr/src/app
-
-COPY --chown=node:node package*.json ./
-
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
-
-COPY --chown=node:node . .
-
 RUN npm run build
 
-ENV NODE_ENV production
+ARG NODE_ENV
+ARG DATABASE_URL
+ARG DIRECT_URL
+ARG REDIS_HOST
+ARG REDIS_PORT
+ARG REDIS_PASSWORD
 
-RUN npm ci --only=production && npm cache clean --force
+ENV NODE_ENV=$NODE_ENV \
+    DATABASE_URL=$DATABASE_URL \
+    DIRECT_URL=$DIRECT_URL \
+    REDIS_HOST=$REDIS_HOST \
+    REDIS_PORT=$REDIS_PORT \
+    REDIS_PASSWORD=$REDIS_PASSWORD
 
 USER node
 
-###################
-# PRODUCTION
-###################
-
-FROM node:20-alpine As production
-
-COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
-COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-
 CMD [ "npm", "run", "start:prod" ]
-
