@@ -53,7 +53,7 @@ jobs:
           REDIS_PORT: ${{ vars.REDIS_PORT }}
           REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
         with:
-          service: '${{ env.SERVICE }}-dev'
+          service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}
           env_vars: |
