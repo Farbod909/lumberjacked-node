@@ -4,6 +4,7 @@ on: workflow_dispatch
 
 env:
   PROJECT_ID: lumberjacked
+  GAR_LOCATION: us-west2
   SERVICE: lumberjacked
   REGION: us-west2
 
