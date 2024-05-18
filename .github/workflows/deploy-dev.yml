@@ -25,7 +25,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install necessary npm packages
         run: |-
@@ -36,7 +36,7 @@ jobs:
         run: npm run test
 
       - name: Migrate schema changes
-        run: dotenv -v DATABASE_URL="${{ secrets.DATABASE_URL }}" -v DIRECT_URL="${{ secrets.DIRECT_URL }}" -- npm run prisma:migrate
+        run: dotenv -v DATABASE_URL="aa${{ secrets.DATABASE_URL }}" -v DIRECT_URL="${{ secrets.DIRECT_URL }}" -- npm run prisma:migrate
 
       - name: Authenticate to Google Cloud
         id: auth
