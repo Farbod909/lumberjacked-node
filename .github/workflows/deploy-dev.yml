@@ -53,16 +53,16 @@ jobs:
           REDIS_PORT: ${{ vars.REDIS_PORT }}
           REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
         with:
-          service: ${{ env.SERVICE }}
+          service: '${{ env.SERVICE }}-dev'
           region: ${{ env.REGION }}
           image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}
           env_vars: |
-            NODE_ENV="${{ env.NODE_ENV }}"
-            DATABASE_URL="${{ env.DATABASE_URL }}"
-            DIRECT_URL="${{ env.DIRECT_URL }}"
-            REDIS_HOST="${{ env.REDIS_HOST }}"
-            REDIS_PORT="${{ env.REDIS_PORT }}"
-            REDIS_PASSWORD="${{ env.REDIS_PASSWORD }}"
+            NODE_ENV=${{ env.NODE_ENV }}
+            DATABASE_URL=${{ env.DATABASE_URL }}
+            DIRECT_URL=${{ env.DIRECT_URL }}
+            REDIS_HOST=${{ env.REDIS_HOST }}
+            REDIS_PORT=${{ env.REDIS_PORT }}
+            REDIS_PASSWORD=${{ env.REDIS_PASSWORD }}
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
