@@ -30,13 +30,15 @@ jobs:
       - name: Install necessary npm packages
         run: |-
           npm install jest
-          npm install dotenv-cli
 
       - name: Run unit tests
         run: npm run test
 
       - name: Migrate schema changes
-        run: dotenv -v DATABASE_URL=${{ vars.REDIS_PORT }} -v DIRECT_URL=${{ secrets.DIRECT_URL }} -- npm run prisma:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+        run: npm run prisma:migrate
 
       - name: Authenticate to Google Cloud
         id: auth
