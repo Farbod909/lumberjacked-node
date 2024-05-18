@@ -14,11 +14,9 @@ A tool to help fitness enthusiasts log their workouts, aiding in progressive ove
 $ docker-compose up -d -V --build
 ```
 
-Stop local server
+Server is now listening on port 3000.
 
-```bash
-$ docker-compose down
-```
+Stop local server with `docker-compose down`.
 
 ## Test
 
