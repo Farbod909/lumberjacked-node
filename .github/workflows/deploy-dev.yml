@@ -22,6 +22,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Migrate schema changes
+        run: npx dotenv -v DATABASE_URL="${{ secrets.DATABASE_URL }}" -v DIRECT_URL="${{ secrets.DIRECT_URL }}" -- npm run prisma:migrate
+
       - name: Authenticate to Google Cloud
         id: auth
         uses: google-github-actions/auth@v2
