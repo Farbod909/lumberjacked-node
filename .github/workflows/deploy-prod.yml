@@ -25,9 +25,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install necessary npm packages
-        run: |-
-          npm install jest
+      - name: Install dependencies
+        run: npm ci
 
       - name: Run unit tests
         run: npm run test
