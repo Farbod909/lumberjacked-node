@@ -30,7 +30,7 @@ export class MovementsService {
             timestamp: 'desc',
           },
           take: 1,
-          select: { reps: true, load: true },
+          select: { reps: true, load: true, timestamp: true },
         },
       },
     });
@@ -39,6 +39,26 @@ export class MovementsService {
   findOne(id: number) {
     return this.databaseService.movement.findUniqueOrThrow({
       where: { id },
+      select: {
+        id: true,
+        authorId: true,
+        name: true,
+        split: true,
+        description: true,
+        warmupSets: true,
+        workingSets: true,
+        rpe: true,
+        restTime: true,
+        movementLogs: {
+          select: {
+            id: true,
+            sets: true,
+            reps: true,
+            load: true,
+            timestamp: true,
+          },
+        },
+      },
     });
   }
 

@@ -6,6 +6,7 @@ import {
   defaultMovementId,
   defaultUserId,
 } from 'src/testing/movements.service.mock';
+import { timestamp } from 'rxjs';
 
 jest.mock('@prisma/client', () => {
   return {
@@ -44,9 +45,10 @@ describe('MovementsService', () => {
     expect(createdMovement).toEqual(expect.objectContaining(defaultMovement));
 
     // Expect service to find created movement.
-    await expect(service.findOne(createdMovement.id)).resolves.toEqual(
-      createdMovement,
-    );
+    await expect(service.findOne(createdMovement.id)).resolves.toEqual({
+      ...createdMovement,
+      movementLogs: [],
+    });
     await expect(service.findAll(defaultUserId)).resolves.toHaveLength(1);
   });
 
@@ -113,7 +115,11 @@ describe('MovementsService', () => {
         name: createdMovement1.name,
         split: createdMovement1.split,
         movementLogs: [
-          { reps: createdMovement1Log2.reps, load: createdMovement1Log2.load },
+          {
+            reps: createdMovement1Log2.reps,
+            load: createdMovement1Log2.load,
+            timestamp: createdMovement1Log2.timestamp,
+          },
         ],
       },
       {
@@ -154,6 +160,7 @@ describe('MovementsService', () => {
     await expect(service.findOne(createdMovement.id)).resolves.toEqual({
       ...createdMovement,
       split: newSplit,
+      movementLogs: [],
     });
   });
 
