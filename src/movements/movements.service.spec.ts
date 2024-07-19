@@ -6,7 +6,6 @@ import {
   defaultMovementId,
   defaultUserId,
 } from 'src/testing/movements.service.mock';
-import { timestamp } from 'rxjs';
 
 jest.mock('@prisma/client', () => {
   return {
