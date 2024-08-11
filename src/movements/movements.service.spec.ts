@@ -113,6 +113,7 @@ describe('MovementsService', () => {
         id: createdMovement1.id,
         name: createdMovement1.name,
         split: createdMovement1.split,
+        createdAt: createdMovement1.createdAt,
         movementLogs: [
           {
             reps: createdMovement1Log2.reps,
@@ -125,6 +126,7 @@ describe('MovementsService', () => {
         id: createdMovement2.id,
         name: createdMovement2.name,
         split: createdMovement2.split,
+        createdAt: createdMovement2.createdAt,
         movementLogs: [],
       },
     ]);

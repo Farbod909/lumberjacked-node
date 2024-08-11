@@ -28,6 +28,7 @@ export const movementsServiceMock = {
         id: defaultMovementId,
         authorId: authorId,
         ...defaultMovement,
+        movementLogs: [],
       },
     ];
   }),

@@ -37,6 +37,8 @@ model Movement {
 	workingSets		String?
 	rpe				String?
 	restTime		Int? 		// In seconds.
+	createdAt		DateTime	@default(now())
+	updatedAt 		DateTime	@updatedAt
 	movementLogs	MovementLog[]
 }
 

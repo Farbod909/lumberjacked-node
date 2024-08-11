@@ -25,6 +25,7 @@ export class MovementsService {
         id: true,
         name: true,
         split: true,
+        createdAt: true,
         movementLogs: {
           orderBy: {
             timestamp: 'desc',
@@ -49,6 +50,8 @@ export class MovementsService {
         workingSets: true,
         rpe: true,
         restTime: true,
+        createdAt: true,
+        updatedAt: true,
         movementLogs: {
           select: {
             id: true,
