@@ -41,21 +41,8 @@ export class MovementsController {
    * Get all movements for the currently logged-in user.
    */
   @Get()
-  async findAll(@CurrentUser() user: UserSessionInfo) {
-    const movements = await this.movementsService.findAll(user.id);
-    const augmentedMovements: any = movements.slice();
-    for (let i = 0; i < movements.length; i++) {
-      augmentedMovements.at(i).lastLoggedDay = '';
-      if (movements.at(i).movementLogs.length > 0) {
-        augmentedMovements.at(i).lastLoggedDay = movements
-          .at(i)
-          .movementLogs.at(0)
-          .timestamp.toLocaleDateString('en-US', {
-            timeZone: 'America/Los_Angeles', // TODO: set this based on request in the future.
-          });
-      }
-    }
-    return augmentedMovements;
+  findAll(@CurrentUser() user: UserSessionInfo) {
+    return this.movementsService.findAll(user.id);
   }
 
   /**
