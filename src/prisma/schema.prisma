@@ -35,6 +35,7 @@ model Movement {
 	description		String?
 	warmupSets		String?
 	workingSets		String?
+	repRange		String?
 	rpe				String?
 	restTime		Int? 		// In seconds.
 	createdAt		DateTime	@default(now())
@@ -49,5 +50,6 @@ model MovementLog {
 	sets			Int
 	reps			Int
 	load			Decimal
+	notes			String?
 	timestamp		DateTime	@default(now())
 }
