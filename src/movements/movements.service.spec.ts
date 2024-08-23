@@ -112,7 +112,7 @@ describe('MovementsService', () => {
       {
         id: createdMovement1.id,
         name: createdMovement1.name,
-        split: createdMovement1.split,
+        category: createdMovement1.category,
         createdAt: createdMovement1.createdAt,
         movementLogs: [
           {
@@ -125,7 +125,7 @@ describe('MovementsService', () => {
       {
         id: createdMovement2.id,
         name: createdMovement2.name,
-        split: createdMovement2.split,
+        category: createdMovement2.category,
         createdAt: createdMovement2.createdAt,
         movementLogs: [],
       },
@@ -133,7 +133,7 @@ describe('MovementsService', () => {
   });
 
   it('should update a movement', async () => {
-    const newSplit = 'Upper';
+    const newCategory = 'Upper';
 
     // Expect initial empty state.
     await expect(service.findAll(defaultUserId)).resolves.toHaveLength(0);
@@ -146,27 +146,27 @@ describe('MovementsService', () => {
     );
 
     const updatedMovement = await service.update(createdMovement.id, {
-      split: newSplit,
+      category: newCategory,
     });
 
     expect(updatedMovement).toEqual(
       expect.objectContaining({
         id: createdMovement.id,
         ...defaultMovement,
-        split: newSplit,
+        category: newCategory,
       }),
     );
 
     // Expect service to find updated movement.
     await expect(service.findOne(createdMovement.id)).resolves.toEqual({
       ...createdMovement,
-      split: newSplit,
+      category: newCategory,
       movementLogs: [],
     });
   });
 
   it('should not update non-existing movement', async () => {
-    const newSplit = 'Upper';
+    const newCategory = 'Upper';
 
     // Expect initial empty state.
     await expect(service.findAll(defaultUserId)).resolves.toHaveLength(0);
@@ -174,7 +174,7 @@ describe('MovementsService', () => {
     // Updating a MovementLog that should not exist.
     await expect(
       service.update(defaultMovementId, {
-        split: newSplit,
+        category: newCategory,
       }),
     ).resolves.toBeNull(); // The real implementation would throw an error.
 

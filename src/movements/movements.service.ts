@@ -24,7 +24,7 @@ export class MovementsService {
       select: {
         id: true,
         name: true,
-        split: true,
+        category: true,
         createdAt: true,
         movementLogs: {
           orderBy: {
@@ -44,8 +44,8 @@ export class MovementsService {
         id: true,
         authorId: true,
         name: true,
-        split: true,
-        description: true,
+        category: true,
+        notes: true,
         warmupSets: true,
         workingSets: true,
         rpe: true,

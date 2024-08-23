@@ -31,8 +31,8 @@ model Movement {
 	authorId		Int
 	author			User		@relation(fields: [authorId], references: [id])
 	name			String
-	split			String?
-	description		String?
+	category		String?
+	notes			String?
 	warmupSets		String?
 	workingSets		String?
 	repRange		String?

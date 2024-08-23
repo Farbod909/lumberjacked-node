@@ -5,8 +5,8 @@ export const defaultMovementId = 42;
 export const defaultUserId = 21;
 export const defaultMovement = {
   name: 'Bench Press',
-  split: 'Chest',
-  description: 'Sample description',
+  category: 'Chest',
+  notes: 'Sample notes',
   workingSets: '2-3',
 };
 

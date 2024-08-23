@@ -19,13 +19,13 @@ export class CreateMovementDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(30)
-  split?: string;
+  category?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MaxLength(140)
-  description?: string;
+  notes?: string;
 
   @IsOptional()
   @IsNotEmpty()

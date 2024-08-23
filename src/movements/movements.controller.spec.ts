@@ -50,7 +50,7 @@ describe('MovementsController', () => {
   it('should create a movement', async () => {
     const createMovementDto = {
       name: 'Weighted Pullup',
-      split: 'Back',
+      category: 'Back',
       warmupSets: '1',
       restTime: 120,
     };
@@ -99,7 +99,7 @@ describe('MovementsController', () => {
 
   it('should update a movement', async () => {
     const updateMovementDto = {
-      split: 'Upper',
+      category: 'Upper',
     };
     const expectedMovement = Object.assign(
       {
