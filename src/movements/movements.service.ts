@@ -48,6 +48,7 @@ export class MovementsService {
         notes: true,
         warmupSets: true,
         workingSets: true,
+        repRange: true,
         rpe: true,
         restTime: true,
         createdAt: true,
