@@ -1,4 +1,13 @@
-import { IsInt, IsNumber, Max, Min } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 
 export class CreateMovementLogDto {
   @IsInt()
@@ -15,4 +24,10 @@ export class CreateMovementLogDto {
   @Min(0)
   @Max(9999)
   load: number;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(500)
+  notes?: string;
 }

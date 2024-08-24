@@ -25,13 +25,14 @@ export class MovementsService {
         id: true,
         name: true,
         category: true,
+        repRange: true,
         createdAt: true,
         movementLogs: {
           orderBy: {
             timestamp: 'desc',
           },
-          take: 1,
-          select: { reps: true, load: true, timestamp: true },
+          take: 2,
+          select: { sets: true, reps: true, load: true, timestamp: true },
         },
       },
     });

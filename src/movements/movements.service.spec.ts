@@ -87,7 +87,7 @@ describe('MovementsService', () => {
         sets: 4,
         reps: 5,
         load: 6,
-        timestamp: '2024-03-17T16:45:30',
+        timestamp: '2024-03-17T16:46:30',
       },
     });
 
@@ -113,12 +113,20 @@ describe('MovementsService', () => {
         id: createdMovement1.id,
         name: createdMovement1.name,
         category: createdMovement1.category,
+        repRange: createdMovement1.repRange,
         createdAt: createdMovement1.createdAt,
         movementLogs: [
           {
+            sets: createdMovement1Log2.sets,
             reps: createdMovement1Log2.reps,
             load: createdMovement1Log2.load,
             timestamp: createdMovement1Log2.timestamp,
+          },
+          {
+            sets: createdMovement1Log1.sets,
+            reps: createdMovement1Log1.reps,
+            load: createdMovement1Log1.load,
+            timestamp: createdMovement1Log1.timestamp,
           },
         ],
       },
@@ -126,6 +134,7 @@ describe('MovementsService', () => {
         id: createdMovement2.id,
         name: createdMovement2.name,
         category: createdMovement2.category,
+        repRange: createdMovement2.repRange,
         createdAt: createdMovement2.createdAt,
         movementLogs: [],
       },

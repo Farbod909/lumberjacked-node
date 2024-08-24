@@ -24,7 +24,7 @@ export class CreateMovementDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @MaxLength(140)
+  @MaxLength(500)
   notes?: string;
 
   @IsOptional()
@@ -32,8 +32,8 @@ export class CreateMovementDto {
   @IsString()
   @IsIntegerRangeString({
     canBeSingleInteger: true,
-    smallest: 1,
-    largest: 10,
+    smallest: 0,
+    largest: 100,
   })
   warmupSets?: string;
 
@@ -42,8 +42,8 @@ export class CreateMovementDto {
   @IsString()
   @IsIntegerRangeString({
     canBeSingleInteger: true,
-    smallest: 1,
-    largest: 10,
+    smallest: 0,
+    largest: 100,
   })
   workingSets?: string;
 
@@ -52,7 +52,17 @@ export class CreateMovementDto {
   @IsString()
   @IsIntegerRangeString({
     canBeSingleInteger: true,
-    smallest: 1,
+    smallest: 0,
+    largest: 100,
+  })
+  repRange?: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @IsIntegerRangeString({
+    canBeSingleInteger: true,
+    smallest: 0,
     largest: 10,
   })
   rpe?: string;
