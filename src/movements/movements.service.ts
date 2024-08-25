@@ -60,6 +60,7 @@ export class MovementsService {
             sets: true,
             reps: true,
             load: true,
+            notes: true,
             timestamp: true,
           },
         },
