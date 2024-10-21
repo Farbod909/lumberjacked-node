@@ -7,7 +7,6 @@ export const defaultMovementLog = {
   sets: 3,
   reps: 12,
   load: 47.5,
-  timestamp: Date.parse('2024-04-12T03:24:00'),
 };
 
 export const movementLogsServiceMock = {

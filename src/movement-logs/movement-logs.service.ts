@@ -8,10 +8,15 @@ export class MovementLogsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   create(movementId: number, createMovementLogDto: CreateMovementLogDto) {
+    let timestamp = new Date();
+    if (createMovementLogDto.timestamp) {
+      timestamp = new Date(createMovementLogDto.timestamp);
+    }
     return this.databaseService.movementLog.create({
       data: {
         movementId,
         ...createMovementLogDto,
+        timestamp,
       },
     });
   }
@@ -29,9 +34,16 @@ export class MovementLogsService {
   }
 
   update(id: number, updateMovementLogDto: UpdateMovementLogDto) {
+    let timestamp = new Date();
+    if (updateMovementLogDto.timestamp) {
+      timestamp = new Date(updateMovementLogDto.timestamp);
+    }
     return this.databaseService.movementLog.update({
       where: { id },
-      data: updateMovementLogDto,
+      data: {
+        ...updateMovementLogDto,
+        timestamp,
+      },
     });
   }
 

@@ -30,4 +30,8 @@ export class CreateMovementLogDto {
   @IsString()
   @MaxLength(500)
   notes?: string;
+
+  @IsOptional()
+  @IsInt()
+  timestamp?: number; // milliseconds since epoch
 }
