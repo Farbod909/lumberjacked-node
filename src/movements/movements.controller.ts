@@ -27,7 +27,7 @@ export class MovementsController {
   ) {}
 
   /**
-   * Creates a movement and sets the currently logged-in user as author.
+   * Creates a movement and sets the currently logged-in user as the author.
    */
   @Post()
   create(
